@@ -9,7 +9,7 @@ class KDNode {
         std::string description;
         KDNode *left;
         KDNode *right;
-        // perhaps you want to include `depth` as well
+        int depth;
 
         // this function returs the distance in miles from lat, lon
         // to this object
