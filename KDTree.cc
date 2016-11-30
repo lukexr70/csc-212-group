@@ -31,10 +31,19 @@ KDTree::~KDTree() {
 	destroy(root);	
 }
 
+void destroyHelper(KDNode *p) {
+	if (!p)
+		return;
+	destroyHelper(p->left);
+	destroyHelper(p->right);
+	delete p;
+
+}
+
 void KDTree::destroy(KDNode *p) {
 	size = 0;
-	//Traversal
-
+	destroyHelper(root);
+	root = NULL;
 }
 
 
