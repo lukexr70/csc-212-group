@@ -1,6 +1,10 @@
 #include "KDTree.h"
 #include <math.h>
 
+main() {
+	return 0;
+}
+
 KDNode::KDNode(double lat, double lon, const char *desc) {
 	left = NULL;
 	right = NULL;
@@ -31,7 +35,7 @@ KDTree::~KDTree() {
 	destroy(root);	
 }
 
-void destroyHelper(KDNode *p) {
+void KDTree::destroyHelper(KDNode *p) {
 	if (!p)
 		return;
 	destroyHelper(p->left);
@@ -46,9 +50,33 @@ void KDTree::destroy(KDNode *p) {
 	root = NULL;
 }
 
+void KDTree::insertHelper(KDNode *p, KDNode *parent, int depth, double lat, double lon, const char *desc) {
+	
+	if (!p) {
+		KDNode *node = new KDNode(lat, lon, desc);
+		if (p == parent)
+			root = node;
+		else
+			(parent->left == p) ? parent->left = node : parent->right = node;
+		return;
+	}
+	if (depth % 2) {
+		if (p->latitude >= lat)
+			insertHelper(p->right,p, depth + 1, lat, lon, desc);
+		if (p->latitude <= lat)
+			insertHelper(p->left,p, depth + 1, lat, lon, desc);
+	}
+	else {	
+		if (p->longitude >= lon)
+			insertHelper(p->right, p, depth + 1, lat, lon, desc);
+		if (p->longitude <= lon)
+			insertHelper(p->left, p, depth + 1, lat, lon, desc);
+	}
+
+}
 
 void KDTree::insert(double lat, double lon, const char *desc) {
-	// TODO
+	insertHelper(root, root, 1, lat, lon, desc);
 }
 
 unsigned int KDTree::printNeighbors(double lat, double lon, double rad, const char *filter) {

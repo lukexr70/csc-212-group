@@ -36,6 +36,8 @@ class KDTree {
 	    unsigned int getSize();
 	    void insert(double lat, double lon, const char *desc);
 	    unsigned int printNeighbors(double lat, double lon, double rad, const char *filter);
+	    void destroyHelper(KDNode *p);
+	    void insertHelper(KDNode *p, KDNode *parent, int depth, double lat, double lon, const char *desc);
 };
 
 #endif
