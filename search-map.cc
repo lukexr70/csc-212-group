@@ -50,7 +50,7 @@ int main(int argc, char **args) {
 
     // TODO
     // for now a LinkedList, you should replace this by a kDTree
-    LinkedList list;
+    KDTree tree;
 
     // if correct number of parameters
     if (read_args(argc, args, &params)) {
@@ -69,18 +69,18 @@ int main(int argc, char **args) {
                     lon = std::atof(line.substr(0,line.find_first_of(" ")).c_str());
                     name = line.substr(line.find_first_of(" ")+1);
                     // at this point you have LAT, LON, NAME
-                    list.insert(lat, lon, name.c_str());
+                    tree.insert(lat, lon, name.c_str());
                 } catch(const std::exception &e) {
                     std::cerr << "\tcould not parse line: " << raw_line << "\n";
                 }
             }
             myfile.close();
             toc = std::clock();
-            std::cerr << "\tdone! " << list.getSize() << " records inserted in " << (double)(toc-tic)/CLOCKS_PER_SEC << " secs\n";
+            std::cerr << "\tdone! " << tree.getSize() << " records inserted in " << (double)(toc-tic)/CLOCKS_PER_SEC << " secs\n";
             // make (only) one range query to the database
             std::cerr << "Fetching results ... ";
             tic = std::clock();
-            count = list.printNeighbors(params.latitude, params.longitude, params.radius, params.filter.c_str());
+            count = tree.printNeighbors(params.latitude, params.longitude, params.radius, params.filter.c_str());
             toc = std::clock();
             std::cerr << "done!\n\t" << count << " records fetched in " << (double)(toc-tic)/CLOCKS_PER_SEC << " secs\n";
         }

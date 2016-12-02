@@ -1,9 +1,6 @@
 #include "KDTree.h"
 #include <math.h>
 
-main() {
-	return 0;
-}
 
 KDNode::KDNode(double lat, double lon, const char *desc) {
 	left = NULL;
